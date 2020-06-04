@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Monkey"
+    android:orientation="vertical"
+    tools:context=".Monkey">
+
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="350dp">
+
+    <me.itangqi.waveloadingview.WaveLoadingView
+        android:id="@+id/wave"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/seekbar"
+        android:layout_gravity="center"
+        app:wlv_borderColor="@color/background"
+        app:wlv_borderWidth="9dp"
+        app:wlv_progressValue="30"
+        app:wlv_round_rectangle="true"
+        app:wlv_shapeType="circle"
+        app:wlv_triangle_direction="north"
+        app:wlv_waveAmplitude="50"
+        app:wlv_waveColor="@color/background" />
+
+    <TextView
+        android:id="@+id/timerplay1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+        android:text="5:00"
+        android:textColor="@color/play1"
+        android:textSize="70sp" />
+
+
+
+
+</FrameLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="40dp">
+
+    <ImageView
+        android:id="@+id/play1"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play1" />
+
+    <ImageView
+        android:id="@+id/pause"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/pause"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/reset"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/reset"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+</LinearLayout>
+
+<!--      <SeekBar-->
+<!--        android:id="@+id/seekbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:max="100"-->
+<!--        />-->
+
+
+</LinearLayout>
