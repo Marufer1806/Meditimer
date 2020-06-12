@@ -9,26 +9,28 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+
 import android.widget.SeekBar;
-import android.widget.Switch;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gigamole.library.PulseView;
+
 import java.util.Locale;
 
-import me.itangqi.waveloadingview.WaveLoadingView;
+
 
 public class Monkey extends AppCompatActivity {
 
     private static final long Start_Time_In_Millis = 300000;
 
-    private WaveLoadingView waveLoadingView;
+
     private SeekBar seekBar;
     private Runnable runnable;
     private Handler handler;
     private ImageView play1, reset,pause;
-
+    private PulseView pulseView;
     private MediaPlayer m1player;
     private CountDownTimer countDownTimer;
     private long timermillisecond = Start_Time_In_Millis;
@@ -43,9 +45,9 @@ public class Monkey extends AppCompatActivity {
 
         m1player = MediaPlayer.create(this, R.raw.beach);
         play1 = findViewById(R.id.play1);
-        waveLoadingView = findViewById(R.id.wave);
+        pulseView = findViewById(R.id.pv);
         seekBar = findViewById(R.id.seekbar);
-        waveLoadingView.setProgressValue(0);
+
         handler = new Handler();
         timer = findViewById(R.id.timerplay1);
         reset = findViewById(R.id.reset);
@@ -53,12 +55,15 @@ public class Monkey extends AppCompatActivity {
 
 
 
+
+
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 resetTimer();
-               // seekBar.setProgress(0);
+                seekBar.setProgress(0);
                 m1player.seekTo(0);
+                pulseView.finishPulse();
             }
         });
 
@@ -70,15 +75,19 @@ public class Monkey extends AppCompatActivity {
                 if(!m1player.isPlaying()){
                     pause.setVisibility(View.VISIBLE);
                     play1.setVisibility(View.INVISIBLE);
+                    pulseView.startPulse();
                     m1player.start();
                     startTimer();
-                 //   changeSeekBar();
+
+
 
                 }else{
                     m1player.pause();
                     pauseTimer();
+                    pulseView.finishPulse();
                     play1.setVisibility(View.VISIBLE);
                     pause.setVisibility(View.INVISIBLE);
+
 
 
 
@@ -96,48 +105,52 @@ public class Monkey extends AppCompatActivity {
                     pause.setVisibility(View.VISIBLE);
                     play1.setVisibility(View.INVISIBLE);
                     m1player.start();
+                    pulseView.startPulse();
                     startTimer();
-                //    changeSeekBar();
+                    changeSeekBar();
+
 
 
                 } else {
                     pauseTimer();
                     m1player.pause();
+                    pulseView.finishPulse();
                     play1.setVisibility(View.VISIBLE);
                     pause.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
 
-//        m1player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//            @Override
-//            public void onPrepared(MediaPlayer mediaPlayer) {
-//                seekBar.setMax(m1player.getDuration());
-//                changeSeekBar();
-//            }
-//        });
+        m1player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                seekBar.setMax(m1player.getDuration());
+               changeSeekBar();
+            }
+        });
 
-//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                if(fromUser){
-//                    m1player.seekTo(progress);
-//                    //waveLoadingView.setProgressValue(progress);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    m1player.seekTo(progress);
+
+
+                }
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         m1player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -207,21 +220,21 @@ public class Monkey extends AppCompatActivity {
             releaseMediaPlayer();
         }
 
-//    private void changeSeekBar() {
-//        seekBar.setProgress(m1player.getCurrentPosition());
-//       // waveLoadingView.setProgressValue(m1player.getCurrentPosition());
-//        if (m1player.isPlaying()){
-//            runnable = new Runnable() {
-//                @Override
-//                public void run() {
-//                    changeSeekBar();
-//                }
-//            };
-//
-//            handler.postDelayed(runnable, 1000);
-//        }
-//
-//    }
+    private void changeSeekBar() {
+        seekBar.setProgress(m1player.getCurrentPosition());
+
+        if (m1player.isPlaying()){
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    changeSeekBar();
+                }
+            };
+
+            handler.postDelayed(runnable, 1000);
+        }
+
+    }
 
 
 }
